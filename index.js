@@ -34,21 +34,28 @@ app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
 
-app.get('/api/notes', (request, response) => {
-  response.json(notes)
+app.get('/info', (request, response) => {
+  response.send(
+    `
+    <div>
+      Phonebook has info for ${persons.length} people
+    <div/><br>
+    <div>
+      ${Date()}
+    <div/>
+    `
+    )
 })
 
-app.get('/api/notes/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const note = notes.find(note => note.id === id)
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const person = persons.find(p => p.id === id)
 
-    console.log(note, note ? 'json' : '404');
-
-    if (note) {
-        response.json(note)
-    } else {
-        response.status(404).end()
-    }
+  if (person) {
+    response.json(person)
+  } else {
+    response.status(404).end()
+  }
 })
 
 const generateId = () => {
