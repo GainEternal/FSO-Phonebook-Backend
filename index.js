@@ -1,7 +1,11 @@
 const express = require('express')
+var morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+morgan.token('data', (req, res) => JSON.stringify(req.body))
+morganString = ':method :url :status :res[content-length] - :response-time ms :data' 
+app.use(morgan(morganString))
 
 let persons = [
   { 
@@ -65,11 +69,46 @@ app.delete('/api/persons/:id', (request, response) => {
   response.status(204).end()
 })
 
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  if (!body) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+  if (!body.number) {
+    return response.status(400).json({
+      error: 'Number must exist'
+    })
+  }
+  if (!body.name) {
+    return response.status(400).json({
+      error: 'Name must exist'
+    })
+  }
+  if (alreadyExists(body.name)) {
+    return response.status(400).json({
+      error: 'Number must be unique'
+    })
+  }
+
+  const newPerson = {
+    id: generateId(),
+    name: body.name,
+    number: body.number
+  }
+  persons = persons.concat(newPerson)
+
+  response.json(newPerson)
+})
+
+const alreadyExists = (name) => {
+  return persons.some(p => p.name === name)
+}
+
 const generateId = () => {
-    const maxId = notes.length > 0
-      ? Math.max(...notes.map(n => n.id))
-      : 0
-    return maxId + 1
+  return Math.floor(Math.random() * 100000)
 }
   
 app.post('/api/notes', (request, response) => {

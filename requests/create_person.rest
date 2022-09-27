@@ -1,0 +1,35 @@
+POST http://localhost:3001/api/persons HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Fredrick Van Blot",
+    "number": "55-457-524864"
+}
+
+### no content
+POST http://localhost:3001/api/persons HTTP/1.1
+
+### no name
+POST http://localhost:3001/api/persons HTTP/1.1
+Content-Type: application/json
+
+{
+    "number": "55-457-524864"
+}
+
+### no number
+POST http://localhost:3001/api/persons HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Fredrick Van Blot"
+}
+
+### needs unique name
+POST http://localhost:3001/api/persons HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Fredrick Van Blot",
+    "number": "55-457-524864"
+}
