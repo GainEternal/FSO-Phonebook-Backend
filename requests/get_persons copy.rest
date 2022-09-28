@@ -1,0 +1,4 @@
+GET https://bold-frog-673.fly.dev/api/persons
+
+###
+GET https://bold-frog-673.fly.dev/api/persons/3
