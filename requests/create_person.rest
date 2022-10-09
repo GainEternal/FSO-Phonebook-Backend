@@ -6,7 +6,7 @@ Content-Type: application/json
     "number": "55-457-524864"
 }
 
-### no content
+### no content -> expect error "Content missing"
 POST http://localhost:3001/api/persons HTTP/1.1
 
 ### no name

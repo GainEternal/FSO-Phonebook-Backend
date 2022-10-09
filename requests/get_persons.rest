@@ -1,4 +1,10 @@
 GET http://localhost:3001/api/persons
 
 ###
-GET http://localhost:3001/api/persons/3
+GET http://localhost:3001/api/persons/6335ac56eb19b09bed6b9ec3
+
+### expect "malformatted id" error
+GET http://localhost:3001/api/persons/6335ac56eb19b09bed6b9ec
+
+### expect 404 not found error
+GET http://localhost:3001/api/persons/6335ac56eb19b09bed6b9eca

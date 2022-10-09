@@ -1,0 +1,16 @@
+PUT http://localhost:3001/api/persons/6342f8ddd440e0c9eb8f786f
+Content-Type: application/json
+
+{
+    "name": "Fredrick Van Blot",
+    "number": "55-457-5555"
+}
+
+###
+PUT http://localhost:3001/api/persons/6342f8ddd440e0c9eb8f786a
+Content-Type: application/json
+
+{
+    "name": "Fredrick Van Blot",
+    "number": "55-457-5555"
+}
