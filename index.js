@@ -13,28 +13,6 @@ morgan.token('data', (req, res) => JSON.stringify(req.body))
 morganString = ':method :url :status :res[content-length] - :response-time ms :data' 
 app.use(morgan(morganString))
 
-let persons = [
-  { 
-    "id": 1,
-    "name": "Arto Hellas", 
-    "number": "040-123456"
-  },
-  { 
-    "id": 2,
-    "name": "Ada Lovelace", 
-    "number": "39-44-5323523"
-  },
-  { 
-    "id": 3,
-    "name": "Dan Abramov", 
-    "number": "12-43-234345"
-  },
-  { 
-    "id": 4,
-    "name": "Mary Poppendieck", 
-    "number": "39-23-6423122"
-  }
-]
 
 app.get('/', (request, response) => {
   response.send('<h1>Phonebook</h1>')
@@ -75,7 +53,6 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.delete('/api/persons/:id', (request, response, next) => {
   Contact.findByIdAndRemove(request.params.id)
     .then( result => {
-      console.log(result);
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -83,50 +60,32 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-
-  if (Object.keys(body).length === 0) {
-    return response.status(400).json({
-      error: 'content missing'
-    })
-  }
-  if (!body.number) {
-    return response.status(400).json({
-      error: 'Number must exist'
-    })
-  }
-  if (!body.name) {
-    return response.status(400).json({
-      error: 'Name must exist'
-    })
-  }
-  if (alreadyExists(body.name)) {
-    return response.status(400).json({
-      error: 'Number must be unique'
-    })
-  }
-
   const contact = new Contact({
     name: body.name,
     number: body.number
   })
 
-  contact.save().then(savedContact => {
-    response.json(savedContact)
-  })
-  .catch(error => next(error))
+  contact.save()
+    .then(savedContact => {
+      response.json(savedContact)
+    })
+    .catch(error => next(error))
 })
 
 const alreadyExists = (name) => {
-  return persons.some(p => p.name === name)
+  return Contact.findOne( { name } )
+    .then( result => {
+
+    } )
 }
 
-app.put('/api/persons/:id', (request, response) => {
-  const body = request.body
-  const contact = {
-    number: body.number
-  }
+app.put('/api/persons/:id', (request, response, next) => {
+  const { number } = request.body
 
-  Contact.findByIdAndUpdate(request.params.id, contact, { new: true })
+  Contact.findByIdAndUpdate(
+    request.params.id, 
+    { number },  
+    { new: true, runValidators: true, context: 'query' })
     .then(updatedNote => {
       response.json(updatedNote)
     })
@@ -144,6 +103,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({error: 'malformatted id'})
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)

@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "name": "Fredrick Van Blot",
-    "number": "55-457-524864"
+    "number": "55-457524864"
 }
 
 ### no content -> expect error "Content missing"
