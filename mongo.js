@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {
@@ -9,7 +10,6 @@ if (process.argv.length < 3) {
   process.exit(1)
 }
 
-const password = process.argv[2]
 let name = ''
 let number = ''
 
@@ -18,15 +18,15 @@ const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 
 const processArgs = () => {
-    if (process.argv.length == 3) {
+    if (process.argv.length === 3) {
         listContacts()
     }
-    
+
     if (process.argv.length > 3) {
         name = process.argv[3]
-    
+
         if (process.argv.length > 4) {
-            number = process.argv[4]  
+            number = process.argv[4]
         }
         createContacts()
     }
@@ -35,7 +35,7 @@ const processArgs = () => {
 const listContacts = () => {
     mongoose
         .connect(url)
-        .then((result) => {
+        .then(() => {
             console.log('connected...')
 
             Contact.find({}).then(result => {
@@ -51,7 +51,7 @@ const listContacts = () => {
 const createContacts = () => {
     mongoose
     .connect(url)
-    .then((result) => {
+    .then(() => {
         console.log('connected...')
 
         const contact = new Contact({

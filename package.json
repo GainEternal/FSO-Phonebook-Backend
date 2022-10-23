@@ -7,10 +7,12 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf build && cd ../part2-notes/ && npm run build && cp -r build ../notes-backend",
+    "build:ui": "rm -rf build && cd ../FullStackOpenCourseWork/part2/phonebook && npm run build && cp -r build ../../../FullStackOpenPart3",
     "deploy": "flyctl deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "flyctl logs"
+    "logs:prod": "flyctl logs",
+    "restart": "flyctl restart bold-frog-673",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
   },
   "homepage": "https://github.com/GainEternal/FullStackOpenPart3#readme",
   "devDependencies": {
+    "eslint": "^8.26.0",
     "nodemon": "^2.0.20"
   },
   "dependencies": {
